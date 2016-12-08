@@ -17,6 +17,7 @@ public class DText extends DShape
 
 	public void draw(Graphics g) 
 	{
+		g.setColor(color);
 		Rectangle rect = super.getModel().getRectangle();
 		if(super.getModel() instanceof DTextModel)
 		{
@@ -25,11 +26,12 @@ public class DText extends DShape
 			Font font = new Font(textMod.getType(), Font.PLAIN, (int)computeFont(g, textMod.getType(), textMod));
 			g.setFont(font);
 			g.setClip(clip.getBounds().createIntersection(getBounds()));
-			g.drawString(textMod.getText(), rect.x, rect.y+rect.height);
+			g.drawString(textMod.getText(), rect.x, rect.y+(int)(rect.height*.75));
 			g.setClip(clip);
 			super.draw(g);
 		}
 	}
+	
 	
 	private double computeFont(Graphics g, String fontType, DTextModel textMod)
 	{
