@@ -4,7 +4,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 
-public class DShape {
+public class DShape 
+{
 	DShapeModel model;
 	Color color;
 	boolean select;

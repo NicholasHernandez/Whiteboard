@@ -12,7 +12,8 @@ import javax.swing.JColorChooser;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
-public class Canvas extends JPanel implements MouseInputListener, ModelListener{
+public class Canvas extends JPanel implements MouseInputListener, ModelListener
+{
 	ArrayList<DShape> shapes;
 	DShape selected;
 	Point2D mouseClick;
