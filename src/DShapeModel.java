@@ -3,7 +3,7 @@ import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-public class DShapeModel  {
+public class DShapeModel{
 	private Rectangle rect;
 	ArrayList<ModelListener> listeners;
 	public DShapeModel(int x, int y, int width, int height){
@@ -49,5 +49,20 @@ public class DShapeModel  {
 		for(ModelListener listen: listeners){
 			listen.modelChanged(this);
 		}
+	}
+	
+	public void deleteModel(){
+		notifyListeners();
+		//for(ModelListener listen: listeners){
+		//listen.deleteModel()
+		//}
+		//use this to prepare all the models to be deleted
+		// do all the shit you would do in deleting the model
+		// basically focus on notifying the listeners that depend 
+		// on this object that it was deleted
+		// ljke the screen thing where 
+		// you see the cordinates and the width and the height
+		//unattach that and notify it
+		
 	}
 }

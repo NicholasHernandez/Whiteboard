@@ -26,7 +26,6 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener{
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
 	}
-
 	public void paint(Graphics g) {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 400, 400);
@@ -182,6 +181,31 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener{
 	@Override
 	public void modelChanged(DShapeModel model) {
 		repaint();
+	}
+
+	public void RemoveShape() {
+		if(selected != null){
+			selected.deleteModel();
+			shapes.remove(shapes.indexOf(selected));
+			selected = null;
+		}
+		
+	}
+
+	public void moveToFront() {
+		if(selected != null){
+			
+			shapes.remove(shapes.indexOf(selected));
+			shapes.add(selected);
+			repaint();
+		}
+	}
+	public void moveToBack() {
+		if(selected != null){
+			shapes.remove(shapes.indexOf(selected));
+			shapes.add(0, selected);
+			repaint();
+		}
 	}
 
 	
