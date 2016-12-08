@@ -111,7 +111,42 @@ public class Whiteboard extends JFrame {
 		});
 		
 		vertPanel.add(setColor);
+		
+		JPanel thirdPannel = new JPanel();
+		
+		JButton RemoveShape = new JButton("Remove Shape");
+		RemoveShape.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				draw.RemoveShape();
+				
+			}
+		});
+		
+		thirdPannel.add(RemoveShape);
+		JButton moveToFront = new JButton("Move to Front");
+		moveToFront.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				draw.moveToFront(); //:#(nick is the most lit nigga on earth)
+				
+			}
+		});
+		
+		thirdPannel.add(moveToFront);
 
+		
+		JButton moveToBack = new JButton("Move to Back");
+		moveToBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				draw.moveToBack(); //:#(nick is the most lit nigga on earth)
+				
+			}
+		});
+		
+		thirdPannel.add(moveToBack);
+		vertPanel.add(thirdPannel);
 		for (Component comp : vertPanel.getComponents()) { 
 			((JComponent) comp).setAlignmentX(Box.LEFT_ALIGNMENT);
 		}
@@ -128,14 +163,14 @@ public class Whiteboard extends JFrame {
 	
 	
 	private void addNewCircle() {
-		DOvalModel ovl = new DOvalModel((int)(Math.random()*200), (int)(Math.random()*200),(int)(Math.random()*200), (int)(Math.random()*200));
+		DOvalModel ovl = new DOvalModel(10, 10 ,20,20);
 		draw.addShape(ovl);
 		this.repaint();
 
 	}
 	private void addNewRectangle() {
 
-		DRectModel rect = new DRectModel((int)(Math.random()*200), (int)(Math.random()*200),(int)(Math.random()*200), (int)(Math.random()*200));
+		DRectModel rect = new DRectModel(10, 10 ,20,20);
 		draw.addShape(rect);
 		this.repaint();
 
@@ -154,6 +189,7 @@ public class Whiteboard extends JFrame {
 	
 	private void changeColor() {
 		draw.changeColor();
+		
 	}
 	public static void main(String[] args) {
 		Whiteboard w1 = new Whiteboard();

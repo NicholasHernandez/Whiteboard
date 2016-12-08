@@ -3,49 +3,39 @@ import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-public class DShapeModel  
-{
+public class DShapeModel  {
 	private Rectangle rect;
 	ArrayList<ModelListener> listeners;
-	
-	public DShapeModel(int x, int y, int width, int height)
-	{
+	public DShapeModel(int x, int y, int width, int height){
 		rect = new Rectangle(x, y, width, height);
 		listeners = new ArrayList<ModelListener>();
 	}
 	
-	public void translate(int dx, int dy)
-	{
+	public void translate(int dx, int dy){
 		rect.translate(dx, dy);
 		notifyListeners();
 	}
-	public Rectangle getRectangle()
-	{
+	public Rectangle getRectangle(){
 		return (Rectangle) rect.clone();
 	}
 	
-	public void setRectangle(Rectangle r)
-	{
+	public void setRectangle(Rectangle r){
 		rect = r;
 		notifyListeners();
 
 	}
 
-	public void addListener(ModelListener listen)
-	{
+	public void addListener(ModelListener listen){
 		listeners.add(listen);
 	}
-	public void removeListener(ModelListener listen)
-	{
+	public void removeListener(ModelListener listen){
 		int i = listeners.indexOf(listen);
 		if(i !=-1){
 			listeners.remove(i);
 		}
 	}
-	
 	//mouse and anchor points
-	public void resize(int Xm, int Ym, int Xa, int Ya)
-	{
+	public void resize(int Xm, int Ym, int Xa, int Ya){
 		int x= Math.min(Xm, Xa);
 		int y = Math.min(Ym, Ya);
 		int width= (Math.abs(Xm- Xa));
@@ -55,8 +45,7 @@ public class DShapeModel
 		rect.setSize(width, height);
 		notifyListeners();
 	}
-	public void notifyListeners() 
-	{
+	public void notifyListeners() {
 		for(ModelListener listen: listeners){
 			listen.modelChanged(this);
 		}

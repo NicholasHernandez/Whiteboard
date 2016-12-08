@@ -69,7 +69,11 @@ public class DShape
 	public Rectangle getBounds(){
 		return model.getRectangle();
 	}
+	public void deleteModel(){
+		model.deleteModel();
+		model = null;
 	
+	}
 	public Point2D[] getKnobs(){
 		Rectangle rect = model.getRectangle();
 		Point2D[] points = new Point2D[4];
