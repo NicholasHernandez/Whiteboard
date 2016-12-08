@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
@@ -77,9 +78,12 @@ public class Whiteboard extends JFrame {
 		
 		});
 		buttonPanel.add(addLine);
+		vertPanel.add(buttonPanel);
+
 		
 		JComboBox<String> fontControl = new JComboBox<String>(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames());
 		fontControl.setSelectedItem("Dialog");
+		fontControl.setMaximumSize(new Dimension(300, 150));
 		
 		fontControl.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -88,6 +92,7 @@ public class Whiteboard extends JFrame {
 		});
 		
 		JTextField textString = new JTextField("Whiteboard");
+		textString.setMaximumSize(new Dimension(200, 150));
 		JButton addTextButton = new JButton("Text");
 		addTextButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -98,8 +103,15 @@ public class Whiteboard extends JFrame {
 			
 		});
 		
+		JPanel textPanel = new JPanel();
+		textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.LINE_AXIS));
+		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
+		
+		textPanel.add(textString);
+		textPanel.add(fontControl);
+		vertPanel.add(textPanel);
+		
 		buttonPanel.add(addTextButton);
-		vertPanel.add(buttonPanel);
 		JButton setColor = new JButton("setColor");
 		setColor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -152,12 +164,7 @@ public class Whiteboard extends JFrame {
 		}
 		
 		// Text Editing
-		JPanel textPanel = new JPanel();
-		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
 		
-		textPanel.add(textString);
-		textPanel.add(fontControl);
-		buttonPanel.add(textPanel);
 		return vertPanel;
 	}
 	
