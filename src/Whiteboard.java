@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.awt.GraphicsEnvironment;
 import java.awt.Font;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -19,10 +20,16 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 
 public class Whiteboard extends JFrame {
 	Canvas draw;
+	private static DefaultTableModel shapeInfoModel;
 	
 	public Whiteboard() throws HeadlessException 
 		{
@@ -36,13 +43,12 @@ public class Whiteboard extends JFrame {
 		
 		this.pack();
 		setVisible(true);
-		setResizable( false );
+		//setResizable( false );
 	}
 
 	private JPanel addButtons()
 	{
 		JPanel vertPanel = new JPanel();
-		
 		vertPanel.setLayout(new BoxLayout(vertPanel, BoxLayout.PAGE_AXIS));
 		
 		JPanel buttonPanel = new JPanel();
@@ -58,6 +64,8 @@ public class Whiteboard extends JFrame {
 			}
 		});
 		buttonPanel.add(addCircle);
+		buttonPanel.add(Box.createRigidArea(new Dimension(20,0)));
+		
 		JButton addRectangle = new JButton("Rectangle");
 		addRectangle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -68,6 +76,7 @@ public class Whiteboard extends JFrame {
 			
 		});
 		buttonPanel.add(addRectangle);
+		buttonPanel.add(Box.createRigidArea(new Dimension(20,0)));
 		JButton addLine = new JButton("Line");
 		addLine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -78,6 +87,7 @@ public class Whiteboard extends JFrame {
 		
 		});
 		buttonPanel.add(addLine);
+		buttonPanel.add(Box.createRigidArea(new Dimension(20,0)));
 		vertPanel.add(buttonPanel);
 
 		
@@ -93,11 +103,29 @@ public class Whiteboard extends JFrame {
 		
 		JTextField textString = new JTextField("Whiteboard");
 		textString.setMaximumSize(new Dimension(200, 150));
+		textString.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e)
+			{
+				
+			}
+			
+			public void removeUpdate(DocumentEvent e)
+			{
+				
+				
+			}
+			
+			public void insertUpdate(DocumentEvent e)
+			{
+					
+			}
+		});
+		
 		JButton addTextButton = new JButton("Text");
+		
 		addTextButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				addNewText(textString.getText(), (String)fontControl.getSelectedItem());
-				
 			}
 
 			
@@ -112,11 +140,11 @@ public class Whiteboard extends JFrame {
 		vertPanel.add(textPanel);
 		
 		buttonPanel.add(addTextButton);
+		buttonPanel.add(Box.createRigidArea(new Dimension(20,0)));
 		JButton setColor = new JButton("setColor");
 		setColor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				changeColor();
-				
 			}
 
 			
@@ -163,7 +191,11 @@ public class Whiteboard extends JFrame {
 			((JComponent) comp).setAlignmentX(Box.LEFT_ALIGNMENT);
 		}
 		
-		// Text Editing
+		shapeInfoModel = new DefaultTableModel(new String[] {"X","Y","Width","Height"}, 0);
+		JTable table = new JTable(shapeInfoModel);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		JScrollPane tablePane = new JScrollPane(table);
+		vertPanel.add(tablePane);
 		
 		return vertPanel;
 	}

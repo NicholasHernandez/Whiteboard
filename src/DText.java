@@ -19,6 +19,7 @@ public class DText extends DShape
 	{
 		g.setColor(color);
 		Rectangle rect = super.getModel().getRectangle();
+		
 		if(super.getModel() instanceof DTextModel)
 		{
 			DTextModel textMod = (DTextModel) super.getModel();
@@ -27,6 +28,7 @@ public class DText extends DShape
 			g.setFont(font);
 			g.setClip(clip.getBounds().createIntersection(getBounds()));
 			g.drawString(textMod.getText(), rect.x, rect.y+(int)(rect.height*.75));
+			// make sure to figure out what to do with where to place the text
 			g.setClip(clip);
 			super.draw(g);
 		}

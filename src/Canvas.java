@@ -19,17 +19,21 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 	Point2D mouseClick;
 	Boolean moving, resizing;
 	Point2D resizeAnchorPoint;
+	
 	public Canvas() {
 		super();
-		super.setBackground(Color.WHITE);
 		setPreferredSize(new Dimension(400, 400));
 		shapes = new ArrayList<DShape>();
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
 	}
+
 	public void paint(Graphics g) {
+		super.paint(g);
+		setOpaque(true);
+		setBackground(Color.WHITE);
 		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, 400, 400);
+		//g.fillRect(0, 0, 400, 400);		
 		for (DShape shape : shapes) {
 			shape.draw(g);
 		}

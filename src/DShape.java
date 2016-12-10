@@ -13,7 +13,7 @@ public class DShape
 		color = Color.GRAY;
 		setModel(new DShapeModel(0, 0, 0, 0));
 	}
-	public void Selected(boolean s){
+	public void Selected(boolean s){	
 		select = s;
 	}
 	public void translate(int dx, int dy){
