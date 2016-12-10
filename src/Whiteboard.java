@@ -183,13 +183,14 @@ public class Whiteboard extends JFrame {
 
 	}
 	private void addNewLine() {
-		// TODO Auto-generated method stub
-		
+		DLineModel line = new DLineModel(10, 10 , 20, 20);
+		draw.addShape(line);
+		this.repaint();
 	}
 	private void addNewText(String content, String fontFamily) 
 	{
 		// TODO Auto-generated method stub
-		DTextModel text = new DTextModel((int)(Math.random()*200), (int)(Math.random()*200),(int)(Math.random()*200), (int)(Math.random()*200), content, fontFamily);
+		DTextModel text = new DTextModel((int)10, (int)(10),(int)(20), (int)(20), content, fontFamily);
 		draw.addShape(text);
 		this.repaint();
 	}

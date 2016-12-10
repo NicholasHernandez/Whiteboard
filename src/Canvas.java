@@ -113,14 +113,26 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 		}else{
 			int knobIndex= -1;
 			resizing = true;
-			if(rectIndex ==0 ){
-				knobIndex =3;
-			}else if(rectIndex == 1){
-				knobIndex = 2;
-			}else if(rectIndex == 2){
-				knobIndex = 1;
+			if(selected instanceof DLine){
+				// here youre gonna handle the anchorpoint issue with the 
+				//line then we will be bool
+				
+				if(rectIndex ==0 ){
+					knobIndex =1;
+				}else if(rectIndex == 1){
+					knobIndex = 0;
+				}
 			}else{
-				knobIndex= 0 ;
+				
+				if(rectIndex ==0 ){
+					knobIndex =3;
+				}else if(rectIndex == 1){
+					knobIndex = 2;
+				}else if(rectIndex == 2){
+					knobIndex = 1;
+				}else{
+					knobIndex= 0 ;
+				}
 			}
 			 resizeAnchorPoint = selected.getKnobs()[knobIndex];
 		}
