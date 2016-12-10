@@ -26,6 +26,7 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 public class Whiteboard extends JFrame {
 	Canvas draw;
@@ -50,6 +51,7 @@ public class Whiteboard extends JFrame {
 	{
 		JPanel vertPanel = new JPanel();
 		vertPanel.setLayout(new BoxLayout(vertPanel, BoxLayout.PAGE_AXIS));
+		vertPanel.setPreferredSize(new Dimension(400, 0));
 		
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
@@ -106,18 +108,15 @@ public class Whiteboard extends JFrame {
 		textString.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e)
 			{
-				
 			}
 			
 			public void removeUpdate(DocumentEvent e)
 			{
-				
-				
 			}
 			
 			public void insertUpdate(DocumentEvent e)
 			{
-					
+				draw.changeText(textString.getText());
 			}
 		});
 		
@@ -194,7 +193,9 @@ public class Whiteboard extends JFrame {
 		shapeInfoModel = new DefaultTableModel(new String[] {"X","Y","Width","Height"}, 0);
 		JTable table = new JTable(shapeInfoModel);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		
 		JScrollPane tablePane = new JScrollPane(table);
+		tablePane.setMaximumSize(vertPanel.getMaximumSize());
 		vertPanel.add(tablePane);
 		
 		return vertPanel;

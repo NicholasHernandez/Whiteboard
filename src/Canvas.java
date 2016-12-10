@@ -185,6 +185,15 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 
 	@Override
 	public void mouseExited(MouseEvent e) {}
+	
+	public void changeText(String newText) 
+	{
+		if(selected != null && (selected instanceof DText))
+		{
+			DTextModel text = (DTextModel)selected.getModel();
+			text.setString(newText);
+		}
+	}
 
 	public void changeColor() {
 		if (selected != null) {

@@ -6,7 +6,6 @@ import java.awt.FontMetrics;
 
 public class DText extends DShape 
 {
-
 	public DText() {
 		super();
 	}

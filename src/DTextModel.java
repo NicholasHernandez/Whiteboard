@@ -12,6 +12,11 @@ public class DTextModel extends DShapeModel
 		type = fontType;
 	}
 	
+	public void setString(String s) { 
+		content = s; 
+		notifyListeners();
+		}
+	
 	public String getText() { return content; }
 	
 	public String getType() { return type; } 
