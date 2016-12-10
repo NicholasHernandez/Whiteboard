@@ -138,7 +138,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 					knobIndex= 0 ;
 				}
 			}
-			 resizeAnchorPoint = selected.getKnobs()[knobIndex];
+			 resizeAnchorPoint = (Point2D) selected.getKnobs()[knobIndex].clone();
 		}
 		
 		
