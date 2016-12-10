@@ -12,6 +12,7 @@ public class DShape
 	public DShape() {
 		color = Color.GRAY;
 		setModel(new DShapeModel(0, 0, 0, 0));
+		
 	}
 	public void Selected(boolean s){	
 		select = s;
@@ -46,7 +47,7 @@ public class DShape
 		g.setColor(color);
 		
 		if(select){
-			g.setColor(color.black);
+			g.setColor(Color.black);
 			Rectangle[] rects = getKnobRectangles();
 			for(int i = 0; i<rects.length;i++){
 				g.fillRect((int)(rects[i].getX()), (int)(rects[i].getY()),(int)(rects[i].getWidth()),(int)(rects[i].getHeight()));
