@@ -12,7 +12,7 @@ public class DOval extends DShape {
 	}
 	
 	public void draw(Graphics g) {
-		g.setColor(color);
+		g.setColor(getColor());
 		Rectangle rect = super.getModel().getRectangle();
 		g.fillOval(rect.x, rect.y, rect.width, rect.height);
 		super.draw(g);

@@ -16,7 +16,7 @@ public class DText extends DShape
 
 	public void draw(Graphics g) 
 	{
-		g.setColor(color);
+		g.setColor(getColor());
 		Rectangle rect = super.getModel().getRectangle();
 		
 		if(super.getModel() instanceof DTextModel)

@@ -7,11 +7,12 @@ import java.awt.geom.Point2D;
 public class DShape 
 {
 	DShapeModel model;
-	Color color;
+
 	boolean select;
 	public DShape() {
-		color = Color.GRAY;
+		
 		setModel(new DShapeModel(0, 0, 0, 0));
+		
 		
 	}
 	public void Selected(boolean s){	
@@ -21,7 +22,6 @@ public class DShape
 		model.translate(dx, dy);
 	}
 	public DShape(DShapeModel mdl){
-		color = Color.GRAY;
 		model = mdl;
 	}
 	public void addListener(ModelListener listen){
@@ -37,14 +37,14 @@ public class DShape
 		return model;
 	}
 	public Color getColor(){
-		return color;
+		return model.getColor();
 	}
 	public void setColor(Color c){
+		model.setColor(c);
 		model.notifyListeners();
-		color = c;
 	}
 	public void draw(Graphics g ){
-		g.setColor(color);
+		g.setColor(this.getColor());
 		
 		if(select){
 			g.setColor(Color.black);

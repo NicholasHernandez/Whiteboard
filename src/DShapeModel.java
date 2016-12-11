@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
@@ -13,6 +14,7 @@ public class DShapeModel implements Serializable{
 	 * 
 	 */
 	private Rectangle rect;
+	Color col;
 	
 	ArrayList<ModelListener> listeners;
 
@@ -20,13 +22,16 @@ public class DShapeModel implements Serializable{
 		setRect(new Rectangle(0, 0, 10, 10));
 		listeners = new ArrayList<ModelListener>();
 		notifyListeners();
+		col = Color.gray;
 	}
 	
 	public DShapeModel(int x, int y, int width, int height) {
 		setRect(new Rectangle(x, y, width, height));
 		listeners = new ArrayList<ModelListener>();
+		col = Color.gray;
 		notifyListeners();
 	}
+	
 
 	public void translate(int dx, int dy) {
 		getRect().translate(dx, dy);
@@ -98,5 +103,13 @@ public class DShapeModel implements Serializable{
 
 	public void setRect(Rectangle rect) {
 		this.rect = rect;
+	}
+
+	public Color getColor() {
+		return col;
+	}
+
+	public void setColor(Color col) {
+		this.col = col;
 	}
 }

@@ -22,7 +22,7 @@ public class DRect extends DShape implements Serializable {
 	
 	public void draw(Graphics g) {
 		
-		g.setColor(color);
+		g.setColor(getColor());
  		Rectangle rect = super.getModel().getRectangle();
 		g.fillRect(rect.x, rect.y, rect.width, rect.height);
 		super.draw(g);
