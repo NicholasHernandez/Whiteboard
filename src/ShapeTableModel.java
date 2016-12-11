@@ -52,8 +52,16 @@ public class ShapeTableModel extends AbstractTableModel implements ModelListener
 		}
 	}
 	
+	@Override
 	public void modelChanged(DShapeModel model)
 	{
-		
+		//System.out.println("Table rows being updated");
+		fireTableRowsUpdated(shapes.indexOf(model), shapes.indexOf(model));
+	}
+	
+	@Override
+	public void modelRemoved(DShapeModel model)
+	{
+		deleteRow(model);
 	}
 }
