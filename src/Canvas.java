@@ -25,12 +25,13 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 	Point2D mouseClick;
 	Boolean moving, resizing;
 	Point2D resizeAnchorPoint;
+	ShapeTableModel model;
 	
-	
-	public Canvas() {
+	public Canvas(ShapeTableModel mod) {
 		super();
 		setPreferredSize(new Dimension(400, 400));
 		shapes = new ArrayList<DShape>();
+		model = mod;
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
 	}
@@ -49,18 +50,24 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 
 	public void addShape(DShapeModel shapeModel) {
 		if (shapeModel instanceof DRectModel) {
-			
 			shapes.add(new DRect(shapeModel));
 			shapes.get(shapes.size()-1).addListener(this);
+<<<<<<< HEAD
 			
+=======
+			shapes.get(shapes.size()-1).addListener(model);
+>>>>>>> ab30b9902b280c45ab03f761fb82b6bcf5b04be9
 		} else if (shapeModel instanceof DOvalModel) {
 			shapes.add(new DOval(shapeModel));
+			shapes.get(shapes.size()-1).addListener(model);
 			shapes.get(shapes.size()-1).addListener(this);
 		} else if (shapeModel instanceof DLineModel) {
 			shapes.add(new DLine(shapeModel));
+			shapes.get(shapes.size()-1).addListener(model);
 			shapes.get(shapes.size()-1).addListener(this);
 		} else if (shapeModel instanceof DTextModel) {
 			shapes.add(new DText(shapeModel));
+			shapes.get(shapes.size()-1).addListener(model);
 			shapes.get(shapes.size()-1).addListener(this);
 		} else {
 			System.out.println("none of the above");
@@ -284,10 +291,10 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 			text.setType(newType);
 		}
 	}
-
-	@Override
-	public void modelRemoved(DShapeModel model) {
-		repaint();
+	
+	public void modelRemoved(DShapeModel model)
+	{
+		
 	}
 
 }

@@ -43,14 +43,18 @@ public class Whiteboard extends JFrame {
 	 */
 	private static final long serialVersionUID = 5552655831418640926L;
 	Canvas draw;
+<<<<<<< HEAD
 	private static ShapeTableModel shapeInfoModel;
 	JPanel buttons;
+=======
+	private ShapeTableModel shapeInfoModel = new ShapeTableModel(new String[] {"X","Y","Width","Height"});
+>>>>>>> ab30b9902b280c45ab03f761fb82b6bcf5b04be9
 	
 	public Whiteboard() throws HeadlessException 
 		{
 		super("Whiteboard");
 		super.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		draw = new Canvas();
+		draw = new Canvas(shapeInfoModel);
 		draw.setVisible(true);
 		try 
 	    {
@@ -232,17 +236,13 @@ public class Whiteboard extends JFrame {
 		
 		
 		
-		shapeInfoModel = new ShapeTableModel(new String[] {"X","Y","Width","Height"});
+
 		JTable table = new JTable(shapeInfoModel);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
 		JScrollPane tablePane = new JScrollPane(table);
 		tablePane.setMaximumSize(vertPanel.getMaximumSize());
 		vertPanel.add(tablePane);
-		
-		
-		
-		
 		
 		JPanel clientServer = new JPanel();
 		clientServer.setLayout(new BoxLayout(clientServer, BoxLayout.X_AXIS));
