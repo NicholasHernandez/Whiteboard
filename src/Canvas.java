@@ -257,6 +257,13 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 		}
 	}
 
-	
+	public void changeTextType(String newType)
+	{
+		if(selected != null && (selected instanceof DText))
+		{
+			DTextModel text = (DTextModel)selected.getModel();
+			text.setType(newType);
+		}
+	}
 
 }

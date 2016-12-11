@@ -36,7 +36,7 @@ import javax.swing.table.TableColumn;
 
 public class Whiteboard extends JFrame {
 	Canvas draw;
-	private static DefaultTableModel shapeInfoModel;
+	private static ShapeTableModel shapeInfoModel;
 	
 	public Whiteboard() throws HeadlessException 
 		{
@@ -105,7 +105,7 @@ public class Whiteboard extends JFrame {
 		
 		fontControl.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				draw.changeTextType((String)fontControl.getSelectedItem());
 			}
 		});
 		
@@ -196,7 +196,7 @@ public class Whiteboard extends JFrame {
 			((JComponent) comp).setAlignmentX(Box.LEFT_ALIGNMENT);
 		}
 		
-		shapeInfoModel = new DefaultTableModel(new String[] {"X","Y","Width","Height"}, 0);
+		shapeInfoModel = new ShapeTableModel(new String[] {"X","Y","Width","Height"});
 		JTable table = new JTable(shapeInfoModel);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		
