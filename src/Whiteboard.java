@@ -1,10 +1,8 @@
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsEnvironment;
 import java.awt.HeadlessException;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.XMLDecoder;
@@ -15,15 +13,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.ArrayList;
-import java.awt.GraphicsEnvironment;
-import java.awt.Font;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -41,13 +34,14 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 
-import de.javasoft.plaf.synthetica.SyntheticaAluOxideLookAndFeel;
 import de.javasoft.plaf.synthetica.SyntheticaBlackEyeLookAndFeel;
 
 public class Whiteboard extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5552655831418640926L;
 	Canvas draw;
 	private static ShapeTableModel shapeInfoModel;
 	
@@ -437,14 +431,19 @@ public class Whiteboard extends JFrame {
         	System.out.println("Searching for Connection!");
         } 
         
-        j1.add(new Client(num, Name, j1, window));
+      //  j1.add(new Client(num, Name, j1, window));
         
         while (listening){
-        	new  ServerThread(serverSocket.accept(),num).start(); 
+        //	new  ServerThread(serverSocket.accept(),num).start(); 
         }
         
        
-        serverSocket.close();
+        try {
+			serverSocket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	}
 	
