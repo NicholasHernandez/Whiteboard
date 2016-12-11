@@ -1,11 +1,13 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.JColorChooser;
@@ -119,11 +121,26 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 		for(int i = 0; i <shapes.size(); i++ ){
 			shapes.get(i).deleteModel();
 		}
+		selected = null;
 		shapes.clear();
 		for(int i = 0; i <models.length; i++ ){
 			 this.addShape(models[i]);
 			 
 		}
+	}
+	
+	
+	public BufferedImage createBufferedImage(){
+		 BufferedImage bi = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+	      Graphics graph = bi.getGraphics();
+	      
+	     selected.Selected(false);
+	     paint(graph);
+	     selected.Selected(true);
+	      return bi;
+	      
+
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {

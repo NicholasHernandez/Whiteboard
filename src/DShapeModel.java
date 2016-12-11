@@ -59,6 +59,7 @@ public class DShapeModel implements Serializable{
 		}
 	}
 
+	
 	// mouse and anchor points
 	public void resize(int Xm, int Ym, int Xa, int Ya) {
 		int x = Math.min(Xm, Xa);

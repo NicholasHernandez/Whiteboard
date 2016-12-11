@@ -16,10 +16,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.awt.GraphicsEnvironment;
 import java.awt.Font;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -96,7 +98,7 @@ public class Whiteboard extends JFrame {
 
 		});
 		buttonPanel.add(addLine);
-		buttonPanel.add(Box.createRigidArea(new Dimension(20, 0)));
+		//buttonPanel.add(Box.createRigidArea(new Dimension(20, 0)));
 		vertPanel.add(buttonPanel);
 
 		JComboBox<String> fontControl = new JComboBox<String>(
@@ -169,7 +171,7 @@ public class Whiteboard extends JFrame {
 		moveToFront.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				draw.moveToFront(); // :#(nick is the most lit nigga on earth)
+				draw.moveToFront(); 
 
 			}
 		});
@@ -219,6 +221,15 @@ public class Whiteboard extends JFrame {
 
 		});
 		saveAndOpen.add(openButton);
+		JButton saveImageButton = new JButton("Save PNG");
+		saveImageButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				saveImage();
+
+			}
+
+		});
+		saveAndOpen.add(saveImageButton);
 		vertPanel.add(saveAndOpen);
 
 		return vertPanel;
@@ -244,7 +255,23 @@ public class Whiteboard extends JFrame {
 			d.close();
 		}
 	}
+	
+	private void saveImage() {
 
+		JFileChooser chooser = new JFileChooser();
+		chooser.setCurrentDirectory(new File("/home/me/Documents"));
+		int retrival = chooser.showSaveDialog(null);
+		if (retrival == JFileChooser.APPROVE_OPTION) {
+			
+			try {
+				ImageIO.write(draw.createBufferedImage(), "PNG", new File(chooser.getSelectedFile()+".PNG"));
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+		}
+
+	}
 	private void executeSave() {
 
 		JFileChooser chooser = new JFileChooser();
@@ -283,7 +310,7 @@ public class Whiteboard extends JFrame {
 		this.repaint();
 
 	}
-
+	
 	private void addNewLine() {
 		DLineModel line = new DLineModel(10, 10, 20, 20);
 		draw.addShape(line);
@@ -301,7 +328,7 @@ public class Whiteboard extends JFrame {
 		draw.changeColor();
 
 	}
-
+	
 	public static void main(String[] args) {
 		Whiteboard w1 = new Whiteboard();
 
