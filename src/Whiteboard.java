@@ -35,10 +35,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+
+import de.javasoft.plaf.synthetica.SyntheticaBlackEyeLookAndFeel;
 
 public class Whiteboard extends JFrame {
 	Canvas draw;
@@ -50,6 +53,14 @@ public class Whiteboard extends JFrame {
 		super.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		draw = new Canvas();
 		draw.setVisible(true);
+		try 
+	    {
+	      UIManager.setLookAndFeel(new SyntheticaBlackEyeLookAndFeel());
+	    } 
+	    catch (Exception e) 
+	    {
+	      e.printStackTrace();
+	    }
 		super.setLayout(new BorderLayout());
 		super.add(draw, BorderLayout.CENTER);
 		super.add(addButtons(), BorderLayout.WEST);
@@ -189,18 +200,6 @@ public class Whiteboard extends JFrame {
 
 		thirdPannel.add(moveToBack);
 		vertPanel.add(thirdPannel);
-		for (Component comp : vertPanel.getComponents()) {
-			((JComponent) comp).setAlignmentX(Box.LEFT_ALIGNMENT);
-		}
-		
-		shapeInfoModel = new ShapeTableModel(new String[] {"X","Y","Width","Height"});
-		JTable table = new JTable(shapeInfoModel);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-
-		JScrollPane tablePane = new JScrollPane(table);
-		tablePane.setMaximumSize(vertPanel.getMaximumSize());
-		vertPanel.add(tablePane);
-
 		JPanel saveAndOpen = new JPanel();
 		saveAndOpen.setLayout(new BoxLayout(saveAndOpen, BoxLayout.X_AXIS));
 		JButton saveButton = new JButton("Save");
@@ -231,6 +230,20 @@ public class Whiteboard extends JFrame {
 		});
 		saveAndOpen.add(saveImageButton);
 		vertPanel.add(saveAndOpen);
+		
+		for (Component comp : vertPanel.getComponents()) {
+			((JComponent) comp).setAlignmentX(Box.LEFT_ALIGNMENT);
+		}
+		
+		shapeInfoModel = new ShapeTableModel(new String[] {"X","Y","Width","Height"});
+		JTable table = new JTable(shapeInfoModel);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+
+		JScrollPane tablePane = new JScrollPane(table);
+		tablePane.setMaximumSize(vertPanel.getMaximumSize());
+		vertPanel.add(tablePane);
+
+		
 
 		return vertPanel;
 	}
@@ -308,7 +321,7 @@ public class Whiteboard extends JFrame {
 		DRectModel rect = new DRectModel(10, 10, 20, 20);
 		draw.addShape(rect);
 		this.repaint();
-
+		
 	}
 	
 	private void addNewLine() {
