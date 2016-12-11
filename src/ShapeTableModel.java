@@ -2,14 +2,13 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
-public class ShapeTableModel extends AbstractTableModel
+public class ShapeTableModel extends AbstractTableModel implements ModelListener
 {
-	ArrayList<DShapeModel> shapes;
+	ArrayList<DShapeModel> shapes = new ArrayList<DShapeModel>();
 	private String[] colNames = {"X", "Y", "Width", "Height"};
 	
 	public ShapeTableModel(String[] columnNames)
 	{
-		shapes = new ArrayList<DShapeModel>();
 	}
 	
 	public String getColumnName(int col)
@@ -26,10 +25,35 @@ public class ShapeTableModel extends AbstractTableModel
 	
 	public void addRow(DShapeModel newShape)
 	{
-		
+		shapes.add(newShape);
+		fireTableDataChanged();
 	}
-		
+	
+	public void deleteRow(DShapeModel shape)
+	{
+		shapes.remove(shape);
+		fireTableDataChanged();
+	}
+
 	public Object getValueAt(int row, int column){
-		return shapes.get(row);
+		DShapeModel shape = shapes.get(row);
+		switch(column)
+		{
+		case 0: 
+			return shape.getRect().getX();
+		case 1:
+			return shape.getRect().getY();
+		case 2:
+			return shape.getRect().getWidth();
+		case 3:
+			return shape.getRect().getHeight();
+		default:
+			return null;
+		}
+	}
+	
+	public void modelChanged(DShapeModel model)
+	{
+		
 	}
 }

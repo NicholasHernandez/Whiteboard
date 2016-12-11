@@ -88,8 +88,6 @@ public class Whiteboard extends JFrame {
 			}
 		});
 		buttonPanel.add(addCircle);
-		buttonPanel.add(Box.createRigidArea(new Dimension(20, 0)));
-
 		JButton addRectangle = new JButton("Rectangle");
 		addRectangle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -99,7 +97,6 @@ public class Whiteboard extends JFrame {
 
 		});
 		buttonPanel.add(addRectangle);
-		buttonPanel.add(Box.createRigidArea(new Dimension(20, 0)));
 		JButton addLine = new JButton("Line");
 		addLine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -109,7 +106,6 @@ public class Whiteboard extends JFrame {
 
 		});
 		buttonPanel.add(addLine);
-		//buttonPanel.add(Box.createRigidArea(new Dimension(20, 0)));
 		vertPanel.add(buttonPanel);
 
 		JComboBox<String> fontControl = new JComboBox<String>(
@@ -155,7 +151,6 @@ public class Whiteboard extends JFrame {
 		vertPanel.add(textPanel);
 
 		buttonPanel.add(addTextButton);
-		buttonPanel.add(Box.createRigidArea(new Dimension(20, 0)));
 		JButton setColor = new JButton("setColor");
 		setColor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -165,9 +160,9 @@ public class Whiteboard extends JFrame {
 		});
 
 		vertPanel.add(setColor);
-
+		
 		JPanel thirdPannel = new JPanel();
-
+		thirdPannel.setLayout(new BoxLayout(thirdPannel, BoxLayout.LINE_AXIS));
 		JButton RemoveShape = new JButton("Remove Shape");
 		RemoveShape.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -199,6 +194,7 @@ public class Whiteboard extends JFrame {
 		});
 
 		thirdPannel.add(moveToBack);
+		thirdPannel.setAlignmentX(LEFT_ALIGNMENT);
 		vertPanel.add(thirdPannel);
 		JPanel saveAndOpen = new JPanel();
 		saveAndOpen.setLayout(new BoxLayout(saveAndOpen, BoxLayout.X_AXIS));
@@ -244,7 +240,9 @@ public class Whiteboard extends JFrame {
 		vertPanel.add(tablePane);
 
 		
-
+		for (Component comp : vertPanel.getComponents()) {
+			((JComponent) comp).setAlignmentX(Box.LEFT_ALIGNMENT);
+		}
 		return vertPanel;
 	}
 
@@ -312,6 +310,7 @@ public class Whiteboard extends JFrame {
 	private void addNewCircle() {
 		DOvalModel ovl = new DOvalModel(10, 10, 20, 20);
 		draw.addShape(ovl);
+		shapeInfoModel.addRow(ovl);
 		this.repaint();
 
 	}
@@ -320,13 +319,15 @@ public class Whiteboard extends JFrame {
 
 		DRectModel rect = new DRectModel(10, 10, 20, 20);
 		draw.addShape(rect);
+		shapeInfoModel.addRow(rect);
 		this.repaint();
-		
+
 	}
 	
 	private void addNewLine() {
 		DLineModel line = new DLineModel(10, 10, 20, 20);
 		draw.addShape(line);
+		shapeInfoModel.addRow(line);
 		this.repaint();
 	}
 
@@ -334,6 +335,7 @@ public class Whiteboard extends JFrame {
 		// TODO Auto-generated method stub
 		DTextModel text = new DTextModel((int) 10, (int) (10), (int) (20), (int) (20), content, fontFamily);
 		draw.addShape(text);
+		shapeInfoModel.addRow(text);
 		this.repaint();
 	}
 
