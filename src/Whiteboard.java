@@ -25,12 +25,14 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -41,6 +43,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import de.javasoft.plaf.synthetica.SyntheticaAluOxideLookAndFeel;
 import de.javasoft.plaf.synthetica.SyntheticaBlackEyeLookAndFeel;
 
 public class Whiteboard extends JFrame {
@@ -55,7 +58,8 @@ public class Whiteboard extends JFrame {
 		draw.setVisible(true);
 		try 
 	    {
-	      UIManager.setLookAndFeel(new SyntheticaBlackEyeLookAndFeel());
+	     // UIManager.setLookAndFeel(new SyntheticaBlackEyeLookAndFeel());
+	     UIManager.setLookAndFeel(new SyntheticaAluOxideLookAndFeel());
 	    } 
 	    catch (Exception e) 
 	    {
@@ -69,7 +73,8 @@ public class Whiteboard extends JFrame {
 		setVisible(true);
 		// setResizable( false );
 	}
-
+	
+	
 	private JPanel addButtons() {
 		JPanel vertPanel = new JPanel();
 		vertPanel.setLayout(new BoxLayout(vertPanel, BoxLayout.PAGE_AXIS));
@@ -227,9 +232,8 @@ public class Whiteboard extends JFrame {
 		saveAndOpen.add(saveImageButton);
 		vertPanel.add(saveAndOpen);
 		
-		for (Component comp : vertPanel.getComponents()) {
-			((JComponent) comp).setAlignmentX(Box.LEFT_ALIGNMENT);
-		}
+		
+		
 		
 		shapeInfoModel = new ShapeTableModel(new String[] {"X","Y","Width","Height"});
 		JTable table = new JTable(shapeInfoModel);
@@ -238,7 +242,24 @@ public class Whiteboard extends JFrame {
 		JScrollPane tablePane = new JScrollPane(table);
 		tablePane.setMaximumSize(vertPanel.getMaximumSize());
 		vertPanel.add(tablePane);
+		
+		
+		
+		
+		
+		JPanel clientServer = new JPanel();
+		clientServer.setLayout(new BoxLayout(clientServer, BoxLayout.X_AXIS));
+		JButton clientStartButton = new JButton("Start Client!");
+		clientStartButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				startClient();
 
+			}
+
+		});
+		
+		clientServer.add(clientStartButton);
+		vertPanel.add(clientServer);
 		
 		for (Component comp : vertPanel.getComponents()) {
 			((JComponent) comp).setAlignmentX(Box.LEFT_ALIGNMENT);
@@ -246,6 +267,22 @@ public class Whiteboard extends JFrame {
 		return vertPanel;
 	}
 
+	
+	private void startClient(){
+		JTextField Port = new JTextField();
+		Port.setText("47000");
+		
+		final JComponent[] inputs = new JComponent[] {
+		        new JLabel("Please Enter Port Number"),
+		        Port   
+		};
+		int result = JOptionPane.showConfirmDialog(null, inputs, "Client", JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_OPTION,new ImageIcon("Images/url.png"));
+		if (result == JOptionPane.OK_OPTION) {
+			System.out.println(Port.getText());
+		}else{
+			return;
+		}
+	}
 	protected void executOpen() {
 
 		JFileChooser chooser = new JFileChooser();
