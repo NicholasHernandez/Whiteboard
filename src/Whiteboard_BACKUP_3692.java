@@ -40,10 +40,16 @@ import javax.swing.table.TableColumn;
 
 public class Whiteboard extends JFrame {
 	Canvas draw;
+<<<<<<< HEAD
+	private static DefaultTableModel shapeInfoModel;
+
+	public Whiteboard() throws HeadlessException {
+=======
 	private static ShapeTableModel shapeInfoModel;
 	
 	public Whiteboard() throws HeadlessException 
 		{
+>>>>>>> 4059a0f972e5d610d02ffd1dfecd93ece1846f81
 		super("Whiteboard");
 		super.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		draw = new Canvas();
@@ -106,7 +112,11 @@ public class Whiteboard extends JFrame {
 
 		fontControl.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
+
+=======
 				draw.changeTextType((String)fontControl.getSelectedItem());
+>>>>>>> 4059a0f972e5d610d02ffd1dfecd93ece1846f81
 			}
 		});
 
@@ -190,8 +200,13 @@ public class Whiteboard extends JFrame {
 		for (Component comp : vertPanel.getComponents()) {
 			((JComponent) comp).setAlignmentX(Box.LEFT_ALIGNMENT);
 		}
+<<<<<<< HEAD
+
+		shapeInfoModel = new DefaultTableModel(new String[] { "X", "Y", "Width", "Height" }, 0);
+=======
 		
 		shapeInfoModel = new ShapeTableModel(new String[] {"X","Y","Width","Height"});
+>>>>>>> 4059a0f972e5d610d02ffd1dfecd93ece1846f81
 		JTable table = new JTable(shapeInfoModel);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
