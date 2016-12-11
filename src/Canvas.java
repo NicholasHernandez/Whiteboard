@@ -26,6 +26,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 	Boolean moving, resizing;
 	Point2D resizeAnchorPoint;
 	
+	
 	public Canvas() {
 		super();
 		setPreferredSize(new Dimension(400, 400));
@@ -51,6 +52,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 			
 			shapes.add(new DRect(shapeModel));
 			shapes.get(shapes.size()-1).addListener(this);
+			shapes.get(sha).addListener tableListe
 		} else if (shapeModel instanceof DOvalModel) {
 			shapes.add(new DOval(shapeModel));
 			shapes.get(shapes.size()-1).addListener(this);
@@ -281,6 +283,11 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 			DTextModel text = (DTextModel)selected.getModel();
 			text.setType(newType);
 		}
+	}
+
+	@Override
+	public void modelRemoved(DShapeModel model) {
+		repaint();
 	}
 
 }

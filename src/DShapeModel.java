@@ -84,17 +84,11 @@ public class DShapeModel implements Serializable{
 	}
 
 	public void deleteModel() {
+		for (ModelListener listen : listeners) {
+			listen.modelRemoved(this);
+		}
 		notifyListeners();
-		// for(ModelListener listen: listeners){
-		// listen.deleteModel()
-		// }
-		// use this to prepare all the models to be deleted
-		// do all the shit you would do in deleting the model
-		// basically focus on notifying the listeners that depend
-		// on this object that it was deleted
-		// ljke the screen thing where
-		// you see the coordinates and the width and the height
-		// unattach that and notify it
+		
 	}
 
 	public Rectangle getRect() {

@@ -8,5 +8,7 @@ was. */
 public interface ModelListener extends Serializable{
 
 	public void modelChanged(DShapeModel model);
+	
+	public void modelRemoved(DShapeModel model);
 
 }
