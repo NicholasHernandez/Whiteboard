@@ -44,6 +44,7 @@ public class Whiteboard extends JFrame {
 	private static final long serialVersionUID = 5552655831418640926L;
 	Canvas draw;
 	private static ShapeTableModel shapeInfoModel;
+	JPanel buttons;
 	
 	public Whiteboard() throws HeadlessException 
 		{
@@ -62,8 +63,9 @@ public class Whiteboard extends JFrame {
 	    }
 		super.setLayout(new BorderLayout());
 		super.add(draw, BorderLayout.CENTER);
-		super.add(addButtons(), BorderLayout.WEST);
-
+		buttons = addButtons();
+		super.add(buttons, BorderLayout.WEST);
+		
 		this.pack();
 		setVisible(true);
 		// setResizable( false );
@@ -434,7 +436,7 @@ public class Whiteboard extends JFrame {
       //  j1.add(new Client(num, Name, j1, window));
         
         while (listening){
-        //	new  ServerThread(serverSocket.accept(),num).start(); 
+        	new  ServerThread(serverSocket.accept()).start(); 
         }
         
        
