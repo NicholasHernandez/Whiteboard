@@ -17,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.awt.GraphicsEnvironment;
 import java.awt.Font;
@@ -58,8 +59,8 @@ public class Whiteboard extends JFrame {
 		draw.setVisible(true);
 		try 
 	    {
-	     // UIManager.setLookAndFeel(new SyntheticaBlackEyeLookAndFeel());
-	     UIManager.setLookAndFeel(new SyntheticaAluOxideLookAndFeel());
+	     UIManager.setLookAndFeel(new SyntheticaBlackEyeLookAndFeel());
+	    // UIManager.setLookAndFeel(new SyntheticaAluOxideLookAndFeel());
 	    } 
 	    catch (Exception e) 
 	    {
@@ -253,12 +254,23 @@ public class Whiteboard extends JFrame {
 		clientStartButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				startClient();
-
+				startServer();
 			}
 
 		});
 		
 		clientServer.add(clientStartButton);
+		
+		
+		JButton serverStartButton = new JButton("Start Server!");
+		serverStartButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				startServer();
+			}
+
+		});
+		
+		clientServer.add(serverStartButton);
 		vertPanel.add(clientServer);
 		
 		for (Component comp : vertPanel.getComponents()) {
@@ -268,6 +280,21 @@ public class Whiteboard extends JFrame {
 	}
 
 	
+	private void startServer(){
+		JTextField Port = new JTextField();
+		Port.setText("47000");
+		
+		final JComponent[] inputs = new JComponent[] {
+		        new JLabel("Please Enter Port Number"),
+		        Port   
+		};
+		int result = JOptionPane.showConfirmDialog(null, inputs, "Server", JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_OPTION,new ImageIcon("Images/url.png"));
+		if (result == JOptionPane.OK_OPTION) {
+			System.out.println(Port.getText());
+		}else{
+			return;
+		}
+	}
 	private void startClient(){
 		JTextField Port = new JTextField();
 		Port.setText("47000");
@@ -380,6 +407,47 @@ public class Whiteboard extends JFrame {
 		draw.changeColor();
 
 	}
+	
+	public class ServerThread extends Thread{
+	
+		boolean listening = true;
+		int port;
+		public ServerThread(int p){
+			this.port = p;
+		}
+		
+		public void run(){
+		ServerSocket serverSocket = null;
+        
+        try 
+        {
+           serverSocket = new ServerSocket(port);
+            
+        } catch (IOException e) 
+        {
+            System.err.println("Could not listen on port: " + port + "..." +e);
+            System.exit(-1);
+        }
+        if(listening){
+        	System.out.println("Server Successfully Created! :D:D");
+        	try {
+				sleep (1000);
+			} catch (InterruptedException e) {
+			}
+        	System.out.println("Searching for Connection!");
+        } 
+        
+        j1.add(new Client(num, Name, j1, window));
+        
+        while (listening){
+        	new  ServerThread(serverSocket.accept(),num).start(); 
+        }
+        
+       
+        serverSocket.close();
+	}
+	}
+	
 	
 	public static void main(String[] args) {
 		Whiteboard w1 = new Whiteboard();
