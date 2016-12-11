@@ -1,13 +1,30 @@
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 
-public class DLineModel extends DShapeModel {
+public class DLineModel extends DShapeModel implements Serializable{
+	
+	
+	
+	/*
+	 * 
+	 */
+	private static final long serialVersionUID = -6423425722275019948L;
 	Point2D start, end;
+	public DLineModel(){
+		super();
+		Rectangle rect = super.getRect();
+		start = new Point(rect.x, rect.y);
+		end = new Point(rect.x+rect.width, rect.y+rect.height);
+	}
 	public DLineModel(int _x, int _y, int _width, int _height) {
 		super(_x, _y, _width, _height);
 		start = new Point(_x,_y);
 		end = new Point(_x+_width,_y+_height);
 	}
+	
+	
 	public void resize(int Xm, int Ym, int Xa, int Ya) {
 		int x,y; 
 		if(Xm>Xa){

@@ -1,12 +1,27 @@
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class DShapeModel {
+public class DShapeModel implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9106410012841468338L;
+	/**
+	 * 
+	 */
 	private Rectangle rect;
+	
 	ArrayList<ModelListener> listeners;
 
+	public DShapeModel(){
+		setRect(new Rectangle(0, 0, 10, 10));
+		listeners = new ArrayList<ModelListener>();
+		notifyListeners();
+	}
+	
 	public DShapeModel(int x, int y, int width, int height) {
 		setRect(new Rectangle(x, y, width, height));
 		listeners = new ArrayList<ModelListener>();
@@ -21,7 +36,12 @@ public class DShapeModel {
 	public Rectangle getRectangle() {
 		return (Rectangle) getRect().clone();
 	}
-
+	public ArrayList<ModelListener> getListeners(){
+		return listeners;
+	}
+	public void setListeners(ArrayList<ModelListener> listen){
+		listeners = listen;
+	}
 	public void setRectangle(Rectangle r) {
 		setRect(r);
 		notifyListeners();

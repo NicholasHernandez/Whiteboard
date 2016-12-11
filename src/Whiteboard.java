@@ -7,6 +7,11 @@ import java.awt.HeadlessException;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.XMLEncoder;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.awt.GraphicsEnvironment;
 import java.awt.Font;
@@ -17,6 +22,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -116,7 +122,7 @@ public class Whiteboard extends JFrame {
 			
 			public void insertUpdate(DocumentEvent e)
 			{
-				draw.changeText(textString.getText());
+				((Canvas) draw).changeText(textString.getText());
 			}
 		});
 		
@@ -198,9 +204,50 @@ public class Whiteboard extends JFrame {
 		tablePane.setMaximumSize(vertPanel.getMaximumSize());
 		vertPanel.add(tablePane);
 		
+		JPanel saveAndOpen = new JPanel();
+		saveAndOpen.setLayout(new BoxLayout(saveAndOpen, BoxLayout.PAGE_AXIS));
+		JButton saveButton = new JButton("Save");
+		saveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				executeSave();
+				
+			}
+
+			
+		});
+		saveAndOpen.add(saveButton);
+		vertPanel.add(saveAndOpen);
+		
 		return vertPanel;
 	}
-	
+	private void executeSave() {
+	    String sb = "TEST CONTENT";
+		JFileChooser chooser = new JFileChooser();
+	    chooser.setCurrentDirectory(new File("/home/me/Documents"));
+	    int retrival = chooser.showSaveDialog(null);
+	    if (retrival == JFileChooser.APPROVE_OPTION) {
+	        try {
+	        	 XMLEncoder e = new XMLEncoder(
+                         new BufferedOutputStream(
+                             new FileOutputStream(chooser.getSelectedFile()+".xml")));
+	        	 DShapeModel[] modelShapes = draw.getShapeModels();
+	        	 for(int i =0; i <modelShapes.length; i++){
+	        		 e.writeObject(modelShapes[i]);
+	        	 }
+	        	 e.flush();
+	        	 e.close();
+
+
+	        	FileWriter fw = new FileWriter(".txt");
+	            fw.write(sb.toString());
+	            fw.flush();
+	            fw.close();
+	        } catch (Exception ex) {
+	            ex.printStackTrace();
+	        }
+	    }
+		
+	}
 	
 	private void addNewCircle() {
 		DOvalModel ovl = new DOvalModel(10, 10 ,20,20);

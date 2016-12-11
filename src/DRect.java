@@ -1,8 +1,18 @@
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 
-public class DRect extends DShape {
+public class DRect extends DShape implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -631826623994135578L;
+
+	/**
+	 * 
+	 */
+
 	public DRect() {
 		super();
 	}

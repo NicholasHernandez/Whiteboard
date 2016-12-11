@@ -14,6 +14,10 @@ import javax.swing.event.MouseInputListener;
 
 public class Canvas extends JPanel implements MouseInputListener, ModelListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	ArrayList<DShape> shapes;
 	DShape selected;
 	Point2D mouseClick;
@@ -102,6 +106,25 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 
 	}
 
+	public DShapeModel[] getShapeModels(){
+		DShapeModel[] models = new DShapeModel[shapes.size()];
+		for(int i = 0; i <shapes.size(); i++ ){
+			models[i] = shapes.get(i).getModel();
+		}
+		
+		return models;
+		
+	}
+	public void loadShapeModels(DShapeModel[] models){
+		for(int i = 0; i <shapes.size(); i++ ){
+			shapes.get(i).deleteModel();
+		}
+		shapes.clear();
+		for(int i = 0; i <models.length; i++ ){
+			 this.addShape(models[i]);
+			 
+		}
+	}
 	@Override
 	public void mousePressed(MouseEvent e) {
 		mouseClick = e.getPoint();
