@@ -39,6 +39,9 @@ public class DShape
 	public Color getColor(){
 		return model.getColor();
 	}
+	public void addDataTransmitter(dataTransmitter d1){
+		model.addDataTransmitter(d1);
+	}
 	public void setColor(Color c){
 		model.setColor(c);
 		model.notifyListeners();
@@ -83,6 +86,14 @@ public class DShape
 		points[2]= new Point((int)(rect.getX()),(int)( rect.getY()+rect.getHeight()));
 		points[3]= new Point((int)(rect.getX() + rect.getWidth()),(int)(rect.getY()+rect.getHeight()));
 		return points;
+	}
+	public void movedToFront() {
+		model.movedToFront();
+		
+	}
+	public void movedToBack() {
+		model.movedToBack();
+		
 	}
 	
 	

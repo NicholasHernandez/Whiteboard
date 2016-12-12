@@ -9,12 +9,23 @@ import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.SocketAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
@@ -44,9 +55,9 @@ public class Whiteboard extends JFrame {
 	private static final long serialVersionUID = 5552655831418640926L;
 	Canvas draw;
 
-	JPanel buttons;
+	ArrayList<JComponent> buttons;
 	private ShapeTableModel shapeInfoModel = new ShapeTableModel(new String[] {"X","Y","Width","Height"});
-
+	int transmitterIndex = 0;
 	
 	public Whiteboard() throws HeadlessException 
 		{
@@ -65,8 +76,8 @@ public class Whiteboard extends JFrame {
 	    }
 		super.setLayout(new BorderLayout());
 		super.add(draw, BorderLayout.CENTER);
-		buttons = addButtons();
-		super.add(buttons, BorderLayout.WEST);
+		buttons = new ArrayList<JComponent>();
+		super.add(addButtons(), BorderLayout.WEST);
 		
 		this.pack();
 		setVisible(true);
@@ -91,6 +102,7 @@ public class Whiteboard extends JFrame {
 
 			}
 		});
+		buttons.add(addCircle);
 		buttonPanel.add(addCircle);
 		JButton addRectangle = new JButton("Rectangle");
 		addRectangle.addActionListener(new ActionListener() {
@@ -100,6 +112,7 @@ public class Whiteboard extends JFrame {
 			}
 
 		});
+		buttons.add(addRectangle);
 		buttonPanel.add(addRectangle);
 		JButton addLine = new JButton("Line");
 		addLine.addActionListener(new ActionListener() {
@@ -109,6 +122,7 @@ public class Whiteboard extends JFrame {
 			}
 
 		});
+		buttons.add(addLine);
 		buttonPanel.add(addLine);
 		vertPanel.add(buttonPanel);
 
@@ -145,15 +159,19 @@ public class Whiteboard extends JFrame {
 			}
 
 		});
-
+		
 		JPanel textPanel = new JPanel();
 		textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.LINE_AXIS));
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
+		
+		buttons.add(textString);
+		buttons.add(fontControl);
+		buttons.add(textPanel);
 
 		textPanel.add(textString);
 		textPanel.add(fontControl);
 		vertPanel.add(textPanel);
-
+		buttons.add(addTextButton);
 		buttonPanel.add(addTextButton);
 		JButton setColor = new JButton("setColor");
 		setColor.addActionListener(new ActionListener() {
@@ -162,6 +180,7 @@ public class Whiteboard extends JFrame {
 			}
 
 		});
+		buttons.add(setColor);
 
 		vertPanel.add(setColor);
 		
@@ -175,7 +194,7 @@ public class Whiteboard extends JFrame {
 
 			}
 		});
-
+		buttons.add(RemoveShape);
 		thirdPannel.add(RemoveShape);
 		JButton moveToFront = new JButton("Move to Front");
 		moveToFront.addActionListener(new ActionListener() {
@@ -185,6 +204,7 @@ public class Whiteboard extends JFrame {
 
 			}
 		});
+		buttons.add(moveToFront);
 
 		thirdPannel.add(moveToFront);
 
@@ -196,7 +216,7 @@ public class Whiteboard extends JFrame {
 
 			}
 		});
-
+		buttons.add(moveToBack);
 		thirdPannel.add(moveToBack);
 		thirdPannel.setAlignmentX(LEFT_ALIGNMENT);
 		vertPanel.add(thirdPannel);
@@ -210,6 +230,7 @@ public class Whiteboard extends JFrame {
 			}
 
 		});
+		buttons.add(saveButton);
 		saveAndOpen.add(saveButton);
 		JButton openButton = new JButton("Open");
 		openButton.addActionListener(new ActionListener() {
@@ -219,6 +240,7 @@ public class Whiteboard extends JFrame {
 			}
 
 		});
+		buttons.add(openButton);
 		saveAndOpen.add(openButton);
 		JButton saveImageButton = new JButton("Save PNG");
 		saveImageButton.addActionListener(new ActionListener() {
@@ -228,6 +250,7 @@ public class Whiteboard extends JFrame {
 			}
 
 		});
+		buttons.add(saveImageButton);
 		saveAndOpen.add(saveImageButton);
 		vertPanel.add(saveAndOpen);
 		
@@ -284,10 +307,41 @@ public class Whiteboard extends JFrame {
 		};
 		int result = JOptionPane.showConfirmDialog(null, inputs, "Server", JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_OPTION,new ImageIcon("Images/url.png"));
 		if (result == JOptionPane.OK_OPTION) {
-			System.out.println(Port.getText());
+			int portnum;
+			try{
+				portnum = Integer.parseInt(Port.getText());
+				if(!(portnum >=0 && portnum <= 65535)){
+					portnum = invalidEntry();
+				}
+			}catch(Exception e){
+				portnum = invalidEntry();
+			}
+			new ServerThread(portnum).start();
+			
 		}else{
 			return;
 		}
+	}
+	
+	private int invalidEntry(){
+		JTextField Port = new JTextField();
+		Port.setText("47000");
+		int portNum = 47000;
+		final JComponent[] inputs = new JComponent[] {
+		        new JLabel("Enter a number between 0 and 65535 or a port will be assigned for you"),
+		        Port   
+		};
+		int result = JOptionPane.showConfirmDialog(null, inputs, "Invalid Entry", JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_OPTION,new ImageIcon("Images/url.png"));
+		if (result == JOptionPane.OK_OPTION) {
+			
+			try{
+				portNum = Integer.parseInt(Port.getText());
+			}catch(Exception e){
+				
+			}
+			
+		}
+		return portNum;
 	}
 	private void startClient(){
 		JTextField Port = new JTextField();
@@ -297,11 +351,29 @@ public class Whiteboard extends JFrame {
 		        new JLabel("Please Enter Port Number"),
 		        Port   
 		};
+	
 		int result = JOptionPane.showConfirmDialog(null, inputs, "Client", JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_OPTION,new ImageIcon("Images/url.png"));
 		if (result == JOptionPane.OK_OPTION) {
-			System.out.println(Port.getText());
+			int portnum;
+			try{
+				portnum = Integer.parseInt(Port.getText());
+				if(!(portnum >=0 && portnum <= 65535)){
+					portnum = invalidEntry();
+				}
+			}catch(Exception e){
+				portnum = invalidEntry();
+			}
+			disableButtons();
+			new ClientThread(portnum).start();
 		}else{
 			return;
+		}
+	}
+	
+	private void disableButtons(){
+		for (JComponent comp : buttons) {
+			
+			((JComponent) comp).setEnabled(false);
 		}
 	}
 	protected void executOpen() {
@@ -351,11 +423,7 @@ public class Whiteboard extends JFrame {
 				XMLEncoder e = new XMLEncoder(
 						new BufferedOutputStream(new FileOutputStream(chooser.getSelectedFile() + ".xml")));
 				DShapeModel[] modelShapes = draw.getShapeModels();
-				e.writeObject(modelShapes);/*
-											 * for(int i =0; i
-											 * <modelShapes.length; i++){
-											 * e.writeObject(modelShapes[i]); }
-											 */
+				e.writeObject(modelShapes);
 				e.flush();
 				e.close();
 			} catch (Exception ex) {
@@ -432,9 +500,13 @@ public class Whiteboard extends JFrame {
         } 
         
       //  j1.add(new Client(num, Name, j1, window));
-        
+       
         while (listening){
-        	//new  ServerThread(serverSocket.accept()).start(); 
+        	try {
+				draw.addDataTransmitter(new  dataTransmitter(serverSocket.accept(), transmitterIndex++));
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
         }
         
        
@@ -447,6 +519,51 @@ public class Whiteboard extends JFrame {
 	}
 	}
 	
+	public class ClientThread extends Thread{
+		Socket kkSocket;
+		ObjectInputStream in;
+		int timeout = 9000;
+		public ClientThread(int port){
+			
+			 try {
+				
+				SocketAddress address = new InetSocketAddress(InetAddress.getLocalHost(), port);
+				kkSocket = new Socket();
+				kkSocket.connect(address, timeout);
+				in = new ObjectInputStream((kkSocket.getInputStream()));
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		public void run(){
+			try {
+				while (true) {                  
+					String verb = (String) in.readObject();
+					System.out.println(verb);
+					String xmlString = (String) in.readObject(); // Read xml encoding of model// Get the xml string, decode to a Message object.
+					// Blocks in readObject(), waiting for server to send something
+					XMLDecoder decoder = new XMLDecoder(new ByteArrayInputStream(xmlString.getBytes()));                      
+					DShapeModel Model = (DShapeModel) decoder.readObject();
+					
+				}
+				
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+		
+	}
 	
 	public static void main(String[] args) {
 		Whiteboard w1 = new Whiteboard();

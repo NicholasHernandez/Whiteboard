@@ -4,9 +4,29 @@ import javax.swing.table.AbstractTableModel;
 
 public class ShapeTableModel extends AbstractTableModel implements ModelListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	ArrayList<DShapeModel> shapes = new ArrayList<DShapeModel>();
 	private String[] colNames = {"X", "Y", "Width", "Height"};
 	
+	public ShapeTableModel(){
+		
+	}
+	
+	public String[] getColNames(){
+		return colNames;
+	}
+	public void setColNames(String[] col){
+		colNames = col;
+	}
+	public ArrayList<DShapeModel> getShapes(){
+		return shapes;
+	}
+	public void setShapes(ArrayList<DShapeModel> shps){
+		shapes = shps;
+	}
 	public ShapeTableModel(String[] columnNames)
 	{
 	}

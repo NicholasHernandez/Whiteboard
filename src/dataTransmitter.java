@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
 
 public class dataTransmitter extends Thread implements ModelListener {
@@ -9,15 +8,16 @@ public class dataTransmitter extends Thread implements ModelListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	Socket socket;
 	int ID;
-	Canvas canvas;
 	ObjectOutputStream out;
-	public dataTransmitter(Socket s1, int num, Canvas c) {
+	
+	public dataTransmitter(Socket s1, int num ) {
 		socket = s1;
 		ID = num;
 		
-		canvas = c;
+	
 		try {
 			out = new ObjectOutputStream(socket.getOutputStream());
 		} catch (IOException e) {
@@ -30,7 +30,7 @@ public class dataTransmitter extends Thread implements ModelListener {
 			out.writeObject("add");
 			out.writeObject(model);
 		} catch (IOException e) {
-						e.printStackTrace();
+			e.printStackTrace();
 		}
 		
 	}
@@ -45,7 +45,7 @@ public class dataTransmitter extends Thread implements ModelListener {
 	}
 	public void movedToBack(DShapeModel model){
 		try {
-			out.writeObject("Back");
+			out.writeObject("back");
 			out.writeObject(model);
 		} catch (IOException e) {
 			e.printStackTrace();

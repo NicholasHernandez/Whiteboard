@@ -15,24 +15,27 @@ public class DShapeModel implements Serializable{
 	 */
 	private Rectangle rect;
 	Color col;
-	
-	ArrayList<ModelListener> listeners;
+	transient ArrayList<ModelListener> listeners;
+	transient ArrayList<dataTransmitter> dataTrans;
 
 	public DShapeModel(){
 		setRect(new Rectangle(0, 0, 10, 10));
 		listeners = new ArrayList<ModelListener>();
+		dataTrans = new ArrayList<dataTransmitter>();
 		notifyListeners();
 		col = Color.gray;
 	}
+	
 	
 	public DShapeModel(int x, int y, int width, int height) {
 		setRect(new Rectangle(x, y, width, height));
 		listeners = new ArrayList<ModelListener>();
+		dataTrans = new ArrayList<dataTransmitter>();
 		col = Color.gray;
 		notifyListeners();
 	}
 	
-
+	
 	public void translate(int dx, int dy) {
 		getRect().translate(dx, dy);
 		notifyListeners();
@@ -81,13 +84,19 @@ public class DShapeModel implements Serializable{
 		for (ModelListener listen : listeners) {
 			listen.modelChanged(this);
 		}
+		for(dataTransmitter dtrans: dataTrans){
+			dtrans.modelChanged(this);
+		}
 	}
 
 	public void deleteModel() {
 		for (ModelListener listen : listeners) {
 			listen.modelRemoved(this);
 		}
-		notifyListeners();
+		for(dataTransmitter dtrans: dataTrans){
+			dtrans.modelRemoved(this);
+		}
+		//notifyListeners();
 		
 	}
 
@@ -105,5 +114,24 @@ public class DShapeModel implements Serializable{
 
 	public void setColor(Color col) {
 		this.col = col;
+	}
+	
+	
+	public void addDataTransmitter(dataTransmitter d1) {
+		dataTrans.add(d1);
+		d1.modelAdded(this);
+	}
+
+
+	public void movedToFront() {
+		for(dataTransmitter dtrans: dataTrans){
+			dtrans.movedToFront(this);
+		}
+	}
+	public void movedToBack() {
+		for(dataTransmitter dtrans: dataTrans){
+			dtrans.movedToBack(this);
+		}
+		
 	}
 }

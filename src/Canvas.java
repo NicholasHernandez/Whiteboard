@@ -21,11 +21,11 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 	 */
 	private static final long serialVersionUID = 1L;
 	ArrayList<DShape> shapes;
-	DShape selected;
-	Point2D mouseClick;
-	Boolean moving, resizing;
-	Point2D resizeAnchorPoint;
-	ShapeTableModel model;
+	transient	DShape selected;
+	transient Point2D mouseClick;
+	transient Boolean moving, resizing;
+	transient Point2D resizeAnchorPoint;
+	transient ShapeTableModel model;
 	
 	public Canvas(ShapeTableModel mod) {
 		super();
@@ -47,7 +47,12 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 		}
 
 	}
-
+	public void addDataTransmitter(dataTransmitter d1){
+		for(int i =0; i <shapes.size(); i++){
+			shapes.get(i).addDataTransmitter(d1);
+		}
+		
+	}
 	public void addShape(DShapeModel shapeModel) {
 		if (shapeModel instanceof DRectModel) {
 			shapes.add(new DRect(shapeModel));
@@ -268,6 +273,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 			
 			shapes.remove(shapes.indexOf(selected));
 			shapes.add(selected);
+			selected.movedToFront();
 			repaint();
 		}
 	}
@@ -275,6 +281,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 		if(selected != null){
 			shapes.remove(shapes.indexOf(selected));
 			shapes.add(0, selected);
+			selected.movedToBack();
 			repaint();
 		}
 	}
