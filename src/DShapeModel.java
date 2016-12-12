@@ -17,6 +17,7 @@ public class DShapeModel implements Serializable{
 	Color col;
 	transient ArrayList<ModelListener> listeners;
 	transient ArrayList<dataTransmitter> dataTrans;
+	int ID;
 
 	public DShapeModel(){
 		setRect(new Rectangle(0, 0, 10, 10));
@@ -40,7 +41,12 @@ public class DShapeModel implements Serializable{
 		getRect().translate(dx, dy);
 		notifyListeners();
 	}
-
+	public int getID(){
+		return ID;
+	}
+	public void setID(int id){
+		ID =  id;
+	}
 	public Rectangle getRectangle() {
 		return (Rectangle) getRect().clone();
 	}
@@ -56,6 +62,9 @@ public class DShapeModel implements Serializable{
 	}
 
 	public void addListener(ModelListener listen) {
+		if(listeners ==null){
+			listeners = new ArrayList<ModelListener>();
+		}
 		listeners.add(listen);
 		notifyListeners();
 	}
@@ -81,6 +90,11 @@ public class DShapeModel implements Serializable{
 	}
 
 	public void notifyListeners() {
+		if(listeners == null){
+			listeners = new ArrayList<ModelListener>();
+		}if(dataTrans == null){
+			dataTrans = new ArrayList<dataTransmitter>();
+		}
 		for (ModelListener listen : listeners) {
 			listen.modelChanged(this);
 		}
@@ -133,5 +147,8 @@ public class DShapeModel implements Serializable{
 			dtrans.movedToBack(this);
 		}
 		
+	}
+	public String toString(){
+		return ID+ " ";
 	}
 }

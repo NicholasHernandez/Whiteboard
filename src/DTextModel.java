@@ -13,7 +13,9 @@ public class DTextModel extends DShapeModel implements Serializable{
 		super();
 		content = "";
 		type = "";
+		
 	}
+	
 	public DTextModel(int _x, int _y, int _width, int _height, String textContent, String fontType) 
 	{
 		super(_x, _y, _width, _height);
@@ -34,7 +36,11 @@ public class DTextModel extends DShapeModel implements Serializable{
 		notifyListeners();
 	}
 	
-	public String getText() { return content; }
+	public String getContent(){
+		return content;
+	}
+	public String getText() { 
+		return content; }
 	
 	public String getType() { return type; } 
 

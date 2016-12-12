@@ -46,6 +46,9 @@ public class DShape
 		model.setColor(c);
 		model.notifyListeners();
 	}
+	public void notifyListeners(){
+		model.notifyListeners();
+	}
 	public void draw(Graphics g ){
 		g.setColor(this.getColor());
 		
@@ -90,6 +93,12 @@ public class DShape
 	public void movedToFront() {
 		model.movedToFront();
 		
+	}
+	public void setID(int ID){
+		model.setID(ID);
+	}
+	public int	getID(){
+		return model.getID();
 	}
 	public void movedToBack() {
 		model.movedToBack();

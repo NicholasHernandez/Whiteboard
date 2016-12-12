@@ -21,12 +21,14 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 	 */
 	private static final long serialVersionUID = 1L;
 	ArrayList<DShape> shapes;
+	ArrayList<dataTransmitter>DataTrans;
 	transient	DShape selected;
 	transient Point2D mouseClick;
 	transient Boolean moving, resizing;
 	transient Point2D resizeAnchorPoint;
 	transient ShapeTableModel model;
-	
+	int shapeCount = 0;
+	boolean isClient = false;
 	
 	public Canvas(ShapeTableModel mod) {
 		super();
@@ -34,7 +36,13 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 		shapes = new ArrayList<DShape>();
 		model = mod;
 		this.addMouseListener(this);
+		
+		
+		
 		this.addMouseMotionListener(this);
+		
+		DataTrans = new ArrayList<dataTransmitter>();
+
 	}
 
 	public void paint(Graphics g) {
@@ -52,13 +60,23 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 		for(int i =0; i <shapes.size(); i++){
 			shapes.get(i).addDataTransmitter(d1);
 		}
+		DataTrans.add(d1);
 		
 	}
+	
+	void setClient(){
+		this.removeMouseMotionListener(this);
+		isClient = true;
+	}
 	public void addShape(DShapeModel shapeModel) {
+		if(!isClient){
+			shapeModel.setID(shapeCount);
+			shapeCount++;
+		}
 		if (shapeModel instanceof DRectModel) {
 			shapes.add(new DRect(shapeModel));
-			shapes.get(shapes.size()-1).addListener(this);
 			shapes.get(shapes.size()-1).addListener(model);
+			shapes.get(shapes.size()-1).addListener(this);
 		} else if (shapeModel instanceof DOvalModel) {
 			shapes.add(new DOval(shapeModel));
 			shapes.get(shapes.size()-1).addListener(model);
@@ -74,9 +92,20 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 		} else {
 			System.out.println("none of the above");
 		}
+		for(dataTransmitter d1: DataTrans){
+			shapes.get(shapes.size()-1).addDataTransmitter(d1);
+		}
+	
 		this.repaint();
 	}
-	
+	public DShape SelectByID(int ID){
+		for(int i =0; i< shapes.size(); i++){
+			if(shapes.get(i).getID() == ID){
+				return shapes.get(i);
+			}
+		}
+		return null;
+	}
 	public void selectShape(int x, int y) {
 		
 		Point2D pnt = new Point(x, y);
@@ -295,7 +324,12 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 			text.setType(newType);
 		}
 	}
-	
+	public void changeSelectedModel(DShapeModel model){
+		if(selected!= null){
+			selected.setModel(model);
+		}
+		selected.notifyListeners();
+	}
 	public void modelRemoved(DShapeModel model)
 	{
 		repaint();
