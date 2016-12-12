@@ -70,6 +70,7 @@ public class Whiteboard extends JFrame
 	private static final long serialVersionUID = 5552655831418640926L;
 	Canvas draw;
 	ArrayList<JComponent> buttons;
+	
 	private ShapeTableModel shapeInfoModel = new ShapeTableModel(new String[] { "X", "Y", "Width", "Height" });
 	int transmitterIndex = 0;
 
@@ -326,6 +327,8 @@ public class Whiteboard extends JFrame
 				startClient();
 			}
 		});
+		buttons.add(clientStartButton);
+
 		clientServer.add(clientStartButton);
 
 		// serverStartButton gives the ability to start the current window as a server
@@ -338,6 +341,7 @@ public class Whiteboard extends JFrame
 				serverStartButton.setEnabled(false);
 			}
 		});
+		buttons.add(serverStartButton);
 		clientServer.add(serverStartButton);
 		
 		vertPanel.add(clientServer);
@@ -385,6 +389,7 @@ public class Whiteboard extends JFrame
 	 
 	 @return int port number
 	 */
+	
 	private int invalidEntry() 
 	{
 		JTextField Port = new JTextField();
@@ -448,6 +453,7 @@ public class Whiteboard extends JFrame
 			((JComponent) comp).setEnabled(false);
 		}
 	}
+	
 
 	/**
 	 Opens the chosen file
@@ -603,12 +609,12 @@ public class Whiteboard extends JFrame
 			
 			if (listening) 
 			{
-				System.out.println("Server Successfully Created! :D:D");
+				//System.out.println("Server Successfully Created! :D:D");
 				try {
 					sleep(1000);
 				} catch (InterruptedException e) {
 				}
-				System.out.println("Searching for Connection!");
+				//System.out.println("Searching for Connection!");
 			}
 
 			while (listening) 
@@ -672,7 +678,6 @@ public class Whiteboard extends JFrame
 					DShapeModel shapeObj = (DShapeModel) decoder.readObject();
 					decoder.close();
 					
-					System.out.println(shapeObj.getRect().x);
 					
 					if (verb.equals("add")) 
 					{

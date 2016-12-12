@@ -579,6 +579,14 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 			selected.setColor(mdl.col);
 			selected.model.setRect(mdl.getRect());
 		}
+		if(mdl instanceof DLineModel){
+			((DLineModel)selected.getModel()).setStart((((DLineModel)mdl).getStart()));
+			((DLineModel)selected.getModel()).setEnd((((DLineModel)mdl).getEnd()));		
+			}
+		if(mdl instanceof DTextModel){
+			((DTextModel)selected.getModel()).setString(((DTextModel)mdl).getText());
+			((DTextModel)selected.getModel()).setType(((DTextModel)mdl).getType());
+		}
 		selected.notifyListeners();
 	}
 	/**
