@@ -545,11 +545,10 @@ public class Whiteboard extends JFrame {
 			try {
 				while (true) {
 					String verb = (String) in.readObject();
-					System.out.println(verb);
 					DShapeModel shapeObj = (DShapeModel) in.readObject(); 
-					System.out.println(shapeObj);
+					System.out.println(shapeObj.getRect().x);
 					if (verb.equals("add")) {
-						draw.addShape(shapeObj);
+						draw.addShapeClient(shapeObj);
 					} else if (verb.equals("remove")) {
 						DShape temp = draw.selected;
 						draw.selected = draw.SelectByID(shapeObj.ID);
@@ -568,7 +567,6 @@ public class Whiteboard extends JFrame {
 					} else if (verb.equals("changed")) {
 						DShape temp = draw.selected;
 						draw.selected = draw.SelectByID(shapeObj.ID);
-						System.out.println(shapeObj);
 						draw.changeSelectedModel(shapeObj);
 						draw.selected = temp;
 					}

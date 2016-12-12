@@ -56,6 +56,7 @@ public class dataTransmitter extends Thread implements ModelListener {
 	public void modelChanged(DShapeModel model) {
 		try {
 			out.writeObject("changed");
+			System.out.println(model.getRect().x);
 			out.writeObject(model);
 		} catch (IOException e) {
 			e.printStackTrace();

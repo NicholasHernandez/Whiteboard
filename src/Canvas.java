@@ -71,6 +71,33 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 		this.removeMouseMotionListener(this);
 		isClient = true;
 	}
+	public void addShapeClient(DShapeModel shapeModel) {
+		
+		if (shapeModel instanceof DRectModel) {
+			shapes.add(new DRect(shapeModel));
+			shapes.get(shapes.size()-1).addClientListener(model);
+			shapes.get(shapes.size()-1).addClientListener(this);
+		} else if (shapeModel instanceof DOvalModel) {
+			shapes.add(new DOval(shapeModel));
+			shapes.get(shapes.size()-1).addClientListener(model);
+			shapes.get(shapes.size()-1).addClientListener(this);
+		} else if (shapeModel instanceof DLineModel) {
+			shapes.add(new DLine(shapeModel));
+			shapes.get(shapes.size()-1).addClientListener(model);
+			shapes.get(shapes.size()-1).addClientListener(this);
+		} else if (shapeModel instanceof DTextModel) {
+			shapes.add(new DText(shapeModel));
+			shapes.get(shapes.size()-1).addClientListener(model);
+			shapes.get(shapes.size()-1).addClientListener(this);
+		} else {
+			System.out.println("none of the above");
+		}
+		for(dataTransmitter d1: DataTrans){
+			shapes.get(shapes.size()-1).addDataTransmitter(d1);
+		}
+	
+		this.repaint();
+	}
 	public void addShape(DShapeModel shapeModel) {
 		if(!isClient){
 			shapeModel.setID(shapeCount);
@@ -174,12 +201,15 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 	public DShapeModel[] getShapeModels(){
 		DShapeModel[] models = new DShapeModel[shapes.size()];
 		for(int i = 0; i <shapes.size(); i++ ){
-			models[i] = shapes.get(i).getModel();
+			models[i] = (DShapeModel) shapes.get(i).getModel();
+			
+
 		}
 		
 		return models;
 		
 	}
+	
 	public void loadShapeModels(DShapeModel[] models){
 		for(int i = 0; i <shapes.size(); i++ ){
 			shapes.get(i).deleteModel();
@@ -348,16 +378,24 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 			text.setType(newType);
 		}
 	}
-	public void changeSelectedModel(DShapeModel model){
+	public void changeSelectedModel(DShapeModel mdl){
 		if(selected!= null){
-			selected.setModel(model);
+			
+			selected.setColor(mdl.col);
+			selected.model.setRect(mdl.getRect());
+
+			
 		}
 		selected.notifyListeners();
 	}
+	
+	
 	public void modelRemoved(DShapeModel model)
 	{
+		
 		repaint();
 		
 	}
 
+	
 }

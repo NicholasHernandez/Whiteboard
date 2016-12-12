@@ -86,7 +86,7 @@ public class DShape
 	 
 	 @param mdl DShapeModel model to be set to
 	 */
-	protected void setModel(DShapeModel mdl)
+	public void setModel(DShapeModel mdl)
 	{
 		model = mdl;
 	}
@@ -244,5 +244,9 @@ public class DShape
 	{
 
 		model.movedToBack();
+	}
+
+	public void addClientListener(ModelListener model2) {
+		model.addClientListener(model2);
 	}
 }

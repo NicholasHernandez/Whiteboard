@@ -16,6 +16,7 @@ public class DShapeModel implements Serializable{
 	private Rectangle rect;
 	Color col;
 	transient ArrayList<ModelListener> listeners;
+	ArrayList<ModelListener> clientListeners;
 	transient ArrayList<dataTransmitter> dataTrans;
 	int ID;
 
@@ -23,6 +24,7 @@ public class DShapeModel implements Serializable{
 		setRect(new Rectangle(0, 0, 10, 10));
 		listeners = new ArrayList<ModelListener>();
 		dataTrans = new ArrayList<dataTransmitter>();
+		clientListeners = new ArrayList<ModelListener>();
 		notifyListeners();
 		col = Color.gray;
 	}
@@ -32,6 +34,8 @@ public class DShapeModel implements Serializable{
 		setRect(new Rectangle(x, y, width, height));
 		listeners = new ArrayList<ModelListener>();
 		dataTrans = new ArrayList<dataTransmitter>();
+		clientListeners = new ArrayList<ModelListener>();
+
 		col = Color.gray;
 		notifyListeners();
 	}
@@ -60,7 +64,11 @@ public class DShapeModel implements Serializable{
 		setRect(r);
 		notifyListeners();
 	}
-
+	
+	public void addClientListener(ModelListener listen){
+		clientListeners.add(listen);
+	}
+	
 	public void addListener(ModelListener listen) {
 		if(listeners ==null){
 			listeners = new ArrayList<ModelListener>();
@@ -100,9 +108,16 @@ public class DShapeModel implements Serializable{
 		}
 		for(dataTransmitter dtrans: dataTrans){
 			dtrans.modelChanged(this);
+			System.out.println(this.getRect().getX());
+		}
+		for(ModelListener listen: clientListeners){
+			listen.modelChanged(this);
 		}
 	}
-
+	public void clearListeners(){
+		listeners.clear();
+	}
+	
 	public void deleteModel() {
 		for (ModelListener listen : listeners) {
 			listen.modelRemoved(this);
@@ -150,5 +165,15 @@ public class DShapeModel implements Serializable{
 	}
 	public String toString(){
 		return ID+ " ";
+	}
+
+
+	public ArrayList<ModelListener> getClientListeners() {
+		return clientListeners;
+	}
+
+
+	public void setClientListeners(ArrayList<ModelListener> clientListeners) {
+		this.clientListeners = clientListeners;
 	}
 }
