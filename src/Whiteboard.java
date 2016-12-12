@@ -142,6 +142,7 @@ public class Whiteboard extends JFrame {
 			}
 
 			public void removeUpdate(DocumentEvent e) {
+				((Canvas) draw).changeText(textString.getText());
 			}
 
 			public void insertUpdate(DocumentEvent e) {
