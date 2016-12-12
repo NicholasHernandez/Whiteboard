@@ -15,6 +15,15 @@ public class ShapeTableModel extends AbstractTableModel implements ModelListener
 		
 	}
 	
+	public void setShapeList(ArrayList<DShape> shapeList)
+	{
+		for(int i = 0; i < shapeList.size(); i++)
+		{
+			shapes.add(shapeList.get(i).getModel());
+		}
+		fireTableDataChanged();
+	}
+	
 	public String[] getColNames(){
 		return colNames;
 	}
@@ -53,6 +62,11 @@ public class ShapeTableModel extends AbstractTableModel implements ModelListener
 	{
 		shapes.remove(shape);
 		fireTableDataChanged();
+	}
+	
+	public DShapeModel getModelAt(int row)
+	{
+		return shapes.get(row);
 	}
 
 	public Object getValueAt(int row, int column){
