@@ -25,7 +25,7 @@ public class dataTransmitter extends Thread implements ModelListener {
 			out = new ObjectOutputStream(socket.getOutputStream());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+		//	e.printStackTrace();
 		}
 	}
 	public void modelAdded(DShapeModel model){
@@ -33,7 +33,7 @@ public class dataTransmitter extends Thread implements ModelListener {
 			out.writeObject("add");
 			encodeAndSend(model);
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		
 	}
@@ -43,7 +43,7 @@ public class dataTransmitter extends Thread implements ModelListener {
 			out.writeObject("front");
 			encodeAndSend(model);
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 	public void movedToBack(DShapeModel model){
@@ -51,7 +51,7 @@ public class dataTransmitter extends Thread implements ModelListener {
 			out.writeObject("back");
 			encodeAndSend(model);
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 	
@@ -64,18 +64,24 @@ public class dataTransmitter extends Thread implements ModelListener {
 			out.flush();
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 	}
 
-	void encodeAndSend(DShapeModel model) throws IOException{
+	void encodeAndSend(DShapeModel model) {
         OutputStream memStream = new ByteArrayOutputStream();
 		XMLEncoder encoder = new XMLEncoder(memStream); 
 		encoder.writeObject(model);     
 		encoder.close();      
 		String xmlString = memStream.toString();
-		out.writeObject(xmlString);
+			try {
+				out.writeObject(xmlString);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
 	}
 	public void modelRemoved(DShapeModel model) {
 		try {
