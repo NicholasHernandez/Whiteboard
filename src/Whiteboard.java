@@ -566,16 +566,29 @@ public class Whiteboard extends JFrame
 		draw.changeColor();
 	}
 
-	public class ServerThread extends Thread {
-
+	/**
+	 ServerThread: sets up server and sends changed data
+	 */
+	public class ServerThread extends Thread 
+	{
 		boolean listening = true;
 		int port;
 
-		public ServerThread(int p) {
+		/**
+		 Constructor for ServerThread
+		 
+		 @param p int port number
+		 */
+		public ServerThread(int p) 
+		{
 			this.port = p;
 		}
 
-		public void run() {
+		/**
+		 Sets up connection as a server 
+		 */
+		public void run() 
+		{
 			ServerSocket serverSocket = null;
 
 			try {
@@ -585,7 +598,9 @@ public class Whiteboard extends JFrame
 				System.err.println("Could not listen on port: " + port + "..." + e);
 				System.exit(-1);
 			}
-			if (listening) {
+			
+			if (listening) 
+			{
 				System.out.println("Server Successfully Created! :D:D");
 				try {
 					sleep(1000);
@@ -594,9 +609,8 @@ public class Whiteboard extends JFrame
 				System.out.println("Searching for Connection!");
 			}
 
-			// j1.add(new Client(num, Name, j1, window));
-
-			while (listening) {
+			while (listening) 
+			{
 				try {
 					draw.addDataTransmitter(new dataTransmitter(serverSocket.accept(), transmitterIndex++));
 				} catch (IOException e) {
@@ -613,20 +627,27 @@ public class Whiteboard extends JFrame
 		}
 	}
 
-	public class ClientThread extends Thread {
+	/**
+	 ClientThread: sets up client and receives data from server
+	 */
+	public class ClientThread extends Thread 
+	{
 		Socket kkSocket;
 		ObjectInputStream in;
 		int timeout = 9000;
 
-		public ClientThread(int port) {
-
+		/**
+		 Constructor for ClientThread
+		 
+		 @param p int port number
+		 */
+		public ClientThread(int port) 
+		{
 			try {
-
 				SocketAddress address = new InetSocketAddress(InetAddress.getLocalHost(), port);
 				kkSocket = new Socket();
 				kkSocket.connect(address, timeout);
 				in = new ObjectInputStream((kkSocket.getInputStream()));
-
 			} catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -636,7 +657,11 @@ public class Whiteboard extends JFrame
 			}
 		}
 
-		public void run() {
+		/**
+		 Receives commands and updates client accordingly
+		 */
+		public void run() 
+		{
 			try {
 				while (true) {
 					String verb = (String) in.readObject();
@@ -647,33 +672,41 @@ public class Whiteboard extends JFrame
 					
 					System.out.println(shapeObj.getRect().x);
 					
-					if (verb.equals("add")) {
+					if (verb.equals("add")) 
+					{
 						shapeObj.clearListeners();
 						draw.addShape(shapeObj);
 						draw.model.setShapeList(draw.shapes);
-					} else if (verb.equals("remove")) {
+					} 
+					else if (verb.equals("remove")) 
+					{
 						DShape temp = draw.selected;
 						draw.selected = draw.SelectByID(shapeObj.ID);
 						draw.RemoveShape();
 						draw.selected = temp;
-					} else if (verb.equals("front")) {
+					} 
+					else if (verb.equals("front")) 
+					{
 						DShape temp = draw.selected;
 						draw.selected = draw.SelectByID(shapeObj.ID);
 						draw.moveToFront();
 						draw.selected = temp;
-					} else if (verb.equals("back")) {
+					} 
+					else if (verb.equals("back")) 
+					{
 						DShape temp = draw.selected;
 						draw.selected = draw.SelectByID(shapeObj.ID);
 						draw.moveToFront();
 						draw.selected = temp;
-					} else if (verb.equals("changed")) {
+					} 
+					else if (verb.equals("changed")) 
+					{
 						DShape temp = draw.selected;
 						draw.selected = draw.SelectByID(shapeObj.ID);
 						draw.changeSelectedModel(shapeObj);
 						draw.selected = temp;
 					}
 				}
-
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -681,14 +714,11 @@ public class Whiteboard extends JFrame
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 		}
-
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) 
+	{
 		Whiteboard w1 = new Whiteboard();
-
 	}
-
 }
