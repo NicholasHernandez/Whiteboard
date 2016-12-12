@@ -79,7 +79,7 @@ public class dataTransmitter extends Thread implements ModelListener {
 				out.writeObject(xmlString);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		
 	}
