@@ -545,11 +545,9 @@ public class Whiteboard extends JFrame {
 				while (true) {                  
 					String verb = (String) in.readObject();
 					System.out.println(verb);
-					String xmlString = (String) in.readObject(); // Read xml encoding of model// Get the xml string, decode to a Message object.
+					DShapeModel shapeObj = (DShapeModel) in.readObject(); // Read xml encoding of model// Get the xml string, decode to a Message object.
 					// Blocks in readObject(), waiting for server to send something
-					XMLDecoder decoder = new XMLDecoder(new ByteArrayInputStream(xmlString.getBytes()));                      
-					DShapeModel Model = (DShapeModel) decoder.readObject();
-					
+				
 				}
 				
 			} catch (ClassNotFoundException e) {

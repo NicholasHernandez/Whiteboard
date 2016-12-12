@@ -22,6 +22,9 @@ public class DTextModel extends DShapeModel implements Serializable{
 		type = fontType;
 	}
 	
+	public void setContent(String s) { 
+		content = s; 
+	}
 	public void setString(String s) { 
 		content = s; 
 		notifyListeners();

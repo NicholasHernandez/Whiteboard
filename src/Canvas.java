@@ -27,6 +27,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 	transient Point2D resizeAnchorPoint;
 	transient ShapeTableModel model;
 	
+	
 	public Canvas(ShapeTableModel mod) {
 		super();
 		setPreferredSize(new Dimension(400, 400));
@@ -297,6 +298,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 	
 	public void modelRemoved(DShapeModel model)
 	{
+		repaint();
 		
 	}
 
