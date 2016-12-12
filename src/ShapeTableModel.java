@@ -40,6 +40,7 @@ public class ShapeTableModel extends AbstractTableModel implements ModelListener
 	 */
 	public void setShapeList(ArrayList<DShape> shapeList)
 	{
+		shapes.clear();
 		for(int i = 0; i < shapeList.size(); i++)
 		{
 			shapes.add(shapeList.get(i).getModel());
