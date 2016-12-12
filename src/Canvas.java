@@ -52,11 +52,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener
 		if (shapeModel instanceof DRectModel) {
 			shapes.add(new DRect(shapeModel));
 			shapes.get(shapes.size()-1).addListener(this);
-<<<<<<< HEAD
-			
-=======
 			shapes.get(shapes.size()-1).addListener(model);
->>>>>>> ab30b9902b280c45ab03f761fb82b6bcf5b04be9
 		} else if (shapeModel instanceof DOvalModel) {
 			shapes.add(new DOval(shapeModel));
 			shapes.get(shapes.size()-1).addListener(model);

@@ -43,12 +43,10 @@ public class Whiteboard extends JFrame {
 	 */
 	private static final long serialVersionUID = 5552655831418640926L;
 	Canvas draw;
-<<<<<<< HEAD
-	private static ShapeTableModel shapeInfoModel;
+
 	JPanel buttons;
-=======
 	private ShapeTableModel shapeInfoModel = new ShapeTableModel(new String[] {"X","Y","Width","Height"});
->>>>>>> ab30b9902b280c45ab03f761fb82b6bcf5b04be9
+
 	
 	public Whiteboard() throws HeadlessException 
 		{
@@ -250,7 +248,7 @@ public class Whiteboard extends JFrame {
 		clientStartButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				startClient();
-				startServer();
+				
 			}
 
 		});
@@ -436,7 +434,7 @@ public class Whiteboard extends JFrame {
       //  j1.add(new Client(num, Name, j1, window));
         
         while (listening){
-        	new  ServerThread(serverSocket.accept()).start(); 
+        	//new  ServerThread(serverSocket.accept()).start(); 
         }
         
        
