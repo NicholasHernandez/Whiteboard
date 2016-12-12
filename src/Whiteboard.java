@@ -334,6 +334,8 @@ public class Whiteboard extends JFrame
 			public void actionPerformed(ActionEvent e) 
 			{
 				startServer();
+				clientStartButton.setEnabled(false);
+				serverStartButton.setEnabled(false);
 			}
 		});
 		clientServer.add(serverStartButton);
