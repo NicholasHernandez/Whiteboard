@@ -1,5 +1,8 @@
+import java.beans.XMLEncoder;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 
 public class dataTransmitter extends Thread implements ModelListener {
@@ -28,7 +31,7 @@ public class dataTransmitter extends Thread implements ModelListener {
 	public void modelAdded(DShapeModel model){
 		try {
 			out.writeObject("add");
-			out.writeObject(model);
+			encodeAndSend(model);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -38,7 +41,7 @@ public class dataTransmitter extends Thread implements ModelListener {
 	public void movedToFront(DShapeModel model){
 		try {
 			out.writeObject("front");
-			out.writeObject(model);
+			encodeAndSend(model);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -46,7 +49,7 @@ public class dataTransmitter extends Thread implements ModelListener {
 	public void movedToBack(DShapeModel model){
 		try {
 			out.writeObject("back");
-			out.writeObject(model);
+			encodeAndSend(model);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -56,20 +59,28 @@ public class dataTransmitter extends Thread implements ModelListener {
 	public void modelChanged(DShapeModel model) {
 		try {
 			out.writeObject("changed");
-			System.out.println(model.getRect().x);
-			out.writeObject(model);
+			//System.out.println(model.getRect().x);
+			encodeAndSend(model);
+			out.flush();
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	@Override
-	
+	void encodeAndSend(DShapeModel model) throws IOException{
+        OutputStream memStream = new ByteArrayOutputStream();
+		XMLEncoder encoder = new XMLEncoder(memStream); 
+		encoder.writeObject(model);     
+		encoder.close();      
+		String xmlString = memStream.toString();
+		out.writeObject(xmlString);
+	}
 	public void modelRemoved(DShapeModel model) {
 		try {
 			out.writeObject("remove");
-			out.writeObject(model);
+			encodeAndSend(model);
 		} catch (IOException e) {
 			 e.printStackTrace();
 		}

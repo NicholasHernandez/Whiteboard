@@ -545,8 +545,13 @@ public class Whiteboard extends JFrame {
 			try {
 				while (true) {
 					String verb = (String) in.readObject();
-					DShapeModel shapeObj = (DShapeModel) in.readObject(); 
+					String xmlString = (String) in.readObject();                      
+					XMLDecoder decoder = new XMLDecoder(new ByteArrayInputStream(xmlString.getBytes()));                      
+					DShapeModel shapeObj = (DShapeModel) decoder.readObject();
+					decoder.close();
+					
 					System.out.println(shapeObj.getRect().x);
+					
 					if (verb.equals("add")) {
 						draw.addShapeClient(shapeObj);
 					} else if (verb.equals("remove")) {

@@ -107,8 +107,9 @@ public class DShapeModel implements Serializable{
 			listen.modelChanged(this);
 		}
 		for(dataTransmitter dtrans: dataTrans){
-			dtrans.modelChanged(this);
 			System.out.println(this.getRect().getX());
+			dtrans.modelChanged(this);
+			
 		}
 		for(ModelListener listen: clientListeners){
 			listen.modelChanged(this);
