@@ -42,9 +42,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import de.javasoft.plaf.synthetica.SyntheticaBlackEyeLookAndFeel;
 
@@ -260,6 +263,16 @@ public class Whiteboard extends JFrame {
 
 		JTable table = new JTable(shapeInfoModel);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+				table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+					public void valueChanged(ListSelectionEvent e)
+					{
+						if(!e.getValueIsAdjusting() && table.getSelectedRow() >= 0)
+						{
+							draw.selectShape(((ShapeTableModel)table.getModel()).getModelAt(table.getSelectedRow()));
+						}
+					}
+				});
 
 		JScrollPane tablePane = new JScrollPane(table);
 		tablePane.setMaximumSize(vertPanel.getMaximumSize());
